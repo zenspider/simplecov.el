@@ -105,9 +105,9 @@
        (-map #'1+)))
 
 (defun simplecov--lines->regions (lines)
-  "Take `LINES' data and return the regions '((beg . end)...) of those lines."
-  (--map (cons (point-at-bol it)
-               (point-at-eol it))
+  "Take `LINES' data and return the regions \\='((beg . end)...) of those lines."
+  (--map (cons (line-beginning-position it)
+               (line-end-position it))
          lines))
 
 (defun simplecov--regions->overlays (regions)
