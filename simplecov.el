@@ -89,7 +89,7 @@
 ;;; Utilities:
 
 (defun simplecov--buffer->coverage (buffer-name)
-  "Take 'BUFFER-NAME and return coverage data from simplecov's json file."
+  "Take BUFFER-NAME and return coverage data from simplecov's json file."
   (let* ((buffer (get-buffer buffer-name))
          (source-path (buffer-file-name buffer))
          (cov-path (simplecov--find-coverage-file-for-buffer buffer-name))
@@ -97,7 +97,7 @@
     (map-nested-elt coverage (list "Minitest" "coverage" source-path "lines"))))
 
 (defun simplecov--coverage->lines (coverage)
-  "Take `COVERAGE' data and return the line numbers of the uncovered (0) lines."
+  "Take COVERAGE data and return the line numbers of the uncovered (0) lines."
   (->> coverage
        (-map-indexed #'cons)
        (--filter (eq 0 (cdr it)))
@@ -105,13 +105,13 @@
        (-map #'1+)))
 
 (defun simplecov--lines->regions (lines)
-  "Take `LINES' data and return the regions \\='((beg . end)...) of those lines."
+  "Take LINES data and return the regions \\='((beg . end)...) of those lines."
   (--map (cons (line-beginning-position it)
                (line-end-position it))
          lines))
 
 (defun simplecov--regions->overlays (regions)
-  "Take `REGIONS' and create overlays using `simplecov-bg-color'."
+  "Take REGIONS and create overlays using `simplecov-bg-color'."
   (--each regions
     (overlay-put (make-overlay (car it) (cdr it))
                  'face (cons 'background-color simplecov-bg-color))))
